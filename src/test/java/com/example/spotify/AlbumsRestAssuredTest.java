@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 
 public class AlbumsRestAssuredTest {
-    public String token = "BQCUDz3HfO6AjKy6XeDQy5pS4xhD1IpZ3bM4n9B_SrskK6GTQ65Qyl6GkvWFZzC0wtsK8XuEAbxH6pdlPrrNkaI1EBR1JFlWjhhjpCqRboqU8mYAxOV70yEwY1wXXIJK1-kTLCjldrRIOG1cR0GUIi-IOUT2LtTazcJAZZZm119XyVjT58uhJHB--wFfpVUrVF4vnNRwLiiQ8VUGuaZsDBIsIP4fUsWp2j6rUA_iNdySaQvllrcCZEuELC-D8YWawu9BZdGzsUBEsdmnxsf4NW8xOwY";
+    public String token = "Bearer BQDOn_mkRSNModHPrLeoN7uBJGflFoHVWLbvLsoxCDAij__PsLFrkWi3GSeSrJPHLSKraIBXsHYxtDbFKzcDpMyC191PBFFpel6Gd3xCHBDV_F6d_Lf1GhdnQHv491wjYw4U--m0Zf6XPCW62woe3N9SDIyPUpH30ChGkmjTb3pbkozqgDvGh63sPVT7huIZXQMq8EQYKedbRSTDMYHkzg5_uTYN6zOEae3oHIuIGBbLafXEiptnng";
     @BeforeAll
     public static void setup() {
         RestAssured.baseURI = "https://api.spotify.com/v1/me";
@@ -45,7 +45,7 @@ public class AlbumsRestAssuredTest {
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .get("https://api.spotify.com/v1/albums?ids=382ObEPsp2rxGrnsizN5TX%2C1A2GTWGtFfWp7KSQTwWOyo%2C2noRn2Aes5aoNVsU6iWThc&market=ES");
+                .get("https://api.spotify.com/v1/albums?ids=382ObEPsp2rxGrnsizN5TX");
         response.prettyPrint();
         response.then().assertThat().statusCode(200);
 

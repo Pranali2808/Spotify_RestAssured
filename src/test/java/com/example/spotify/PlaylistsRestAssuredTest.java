@@ -9,11 +9,12 @@ import static io.restassured.RestAssured.given;
 
 public class PlaylistsRestAssuredTest {
 
-        public String token = "BQCUDz3HfO6AjKy6XeDQy5pS4xhD1IpZ3bM4n9B_SrskK6GTQ65Qyl6GkvWFZzC0wtsK8XuEAbxH6pdlPrrNkaI1EBR1JFlWjhhjpCqRboqU8mYAxOV70yEwY1wXXIJK1-kTLCjldrRIOG1cR0GUIi-IOUT2LtTazcJAZZZm119XyVjT58uhJHB--wFfpVUrVF4vnNRwLiiQ8VUGuaZsDBIsIP4fUsWp2j6rUA_iNdySaQvllrcCZEuELC-D8YWawu9BZdGzsUBEsdmnxsf4NW8xOwY";
+        public String token = "Bearer BQCP2-V32MfMr4GTJpAr3LWn_EGEdphRZJbkCmcpNGeoLo9Bm2rfjkRwaa4VxuCa0McyJ8b6lZV1jyvWO6oCwpAt8KnyPj93Kw8j-P-gr0vCNbgTU2XT39d_qCkg3IV2Ar3PwuwXdO5znziSiDnMrCP2SUUpGAu9PmmLmAWnH_5UCvwsjiA_m-0rTOgYet9tRVtP9deU-RwY0S1UNX0okAOX7QQUKOAqv7pA2GcllqpyvV-C-tE190EMRAza3-fe";
         public String userId = "31bwppxqj44ijzqpuvt3e7ulrq64";
         @BeforeAll
         public static void setup() {
             RestAssured.baseURI = "https://api.spotify.com/v1/me";
+
         }
         @Test(priority = 1)
         public void createPlaylist() {
@@ -32,13 +33,14 @@ public class PlaylistsRestAssuredTest {
             Assertions.assertEquals(201, response.statusCode());
         }
         @Test(priority = 2)
-        public void addItemsToPlaylist() {
+        public void AddItemsToPlaylist() {
             Response response = given()
                     .accept(ContentType.JSON)
                     .contentType(ContentType.JSON)
                     .header("Authorization", token)
+                    .queryParam("uris","spotify:track:1301WleyT98MSxVHPZCA6M")
                     .when()
-                    .post("https://api.spotify.com/v1/playlists/10XKiQHi9vjNU39PHfeTxg/tracks?position=0&uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh%2Cspotify%3Atrack%3A1301WleyT98MSxVHPZCA6M");
+                    .post("https://api.spotify.com/v1/playlists/1ablnFDyvBcM3z9nrHmRKa/tracks?uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh%2Cspotify%3Atrack%3A1301WleyT98MSxVHPZCA6M");
             response.prettyPrint();
             response.then().assertThat().statusCode(201);
 

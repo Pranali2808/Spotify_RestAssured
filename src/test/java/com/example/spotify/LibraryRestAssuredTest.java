@@ -7,97 +7,93 @@ import org.junit.jupiter.api.BeforeAll;
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 
-
-public class FollowRestAssuredTest {
-    public String token = "Bearer BQDOn_mkRSNModHPrLeoN7uBJGflFoHVWLbvLsoxCDAij__PsLFrkWi3GSeSrJPHLSKraIBXsHYxtDbFKzcDpMyC191PBFFpel6Gd3xCHBDV_F6d_Lf1GhdnQHv491wjYw4U--m0Zf6XPCW62woe3N9SDIyPUpH30ChGkmjTb3pbkozqgDvGh63sPVT7huIZXQMq8EQYKedbRSTDMYHkzg5_uTYN6zOEae3oHIuIGBbLafXEiptnng";
+public class LibraryRestAssuredTest {
+    public String token = "Bearer BQCP2-V32MfMr4GTJpAr3LWn_EGEdphRZJbkCmcpNGeoLo9Bm2rfjkRwaa4VxuCa0McyJ8b6lZV1jyvWO6oCwpAt8KnyPj93Kw8j-P-gr0vCNbgTU2XT39d_qCkg3IV2Ar3PwuwXdO5znziSiDnMrCP2SUUpGAu9PmmLmAWnH_5UCvwsjiA_m-0rTOgYet9tRVtP9deU-RwY0S1UNX0okAOX7QQUKOAqv7pA2GcllqpyvV-C-tE190EMRAza3-fe";
     @BeforeAll
     public static void setup() {
         RestAssured.baseURI = "https://api.spotify.com/v1/me";
     }
     @Test
-    public void FollowPlaylist() {
+    public void GetUsersSavedShows() {
         Response response = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .put("https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n/followers");
+                .get("https://api.spotify.com/v1/me/shows?limit=10&offset=5");
         response.prettyPrint();
         response.then().assertThat().statusCode(200);
 
     }
     @Test
-    public void FollowArtistsOrUsers() {
+    public void GetUsersSavedEpisodes() {
         Response response = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .put("https://api.spotify.com/v1/me/following?type=artist&ids=2CIMQHirSU0MQqyYHq0eOx");
-        response.prettyPrint();
-        response.then().assertThat().statusCode(200);
-
-    }
-    @Test
-    public void GetFollowedArtists() {
-        Response response = given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .header("Authorization", token)
-                .when()
-                .get("https://api.spotify.com/v1/me/following?type=artist&after=0I2XqVXqHScXjHhk6AYYRe&limit=10");
+                .get("https://api.spotify.com/v1/me/episodes?market=ES&limit=10&offset=5");
         response.prettyPrint();
         response.then().assertThat().statusCode(200);
 
     }
 
     @Test
-    public void CheckIfUsersFollowPlaylist() {
+    public void CheckUsersSavedShows() {
         Response response = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .get("https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n/followers/contains?ids=jmperezperez");
+                .get("https://api.spotify.com/v1/me/shows/contains?ids=5CfCWKI5pZ28U0uOzXkDHe");
+        response.prettyPrint();
+        response.then().assertThat().statusCode(200);
+    }
+
+    @Test
+    public void SaveAlbums() {
+        Response response = given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .header("Authorization", token)
+                .when()
+                .put("https://api.spotify.com/v1/me/albums?ids=382ObEPsp2rxGrnsizN5TX");
         response.prettyPrint();
         response.then().assertThat().statusCode(200);
 
     }
-
     @Test
-    public void CheckIfUserFollowsArtistsOrUsers() {
+    public void RemoveTracksForCurrentUser() {
         Response response = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .get("https://api.spotify.com/v1/me/following/contains?type=artist&ids=2CIMQHirSU0MQqyYHq0eOx");
+                .delete("https://api.spotify.com/v1/me/tracks?ids=7ouMYWpwJ422jRcDASZB7P");
+        response.prettyPrint();
+        response.then().assertThat().statusCode(200);
+    }
+
+    @Test
+    public void RemoveUsersSavedShows() {
+        Response response = given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .header("Authorization", token)
+                .when()
+                .delete("https://api.spotify.com/v1/me/shows?ids=5CfCWKI5pZ28U0uOzXkDHe&market=ES");
         response.prettyPrint();
         response.then().assertThat().statusCode(200);
 
     }
-
     @Test
-    public void UnfollowArtistsOrUsers() {
+    public void RemoveAlbums() {
         Response response = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .delete("https://api.spotify.com/v1/me/following?type=artist&ids=2CIMQHirSU0MQqyYHq0eOx");
-        response.prettyPrint();
-        response.then().assertThat().statusCode(200);
-
-    }
-
-    @Test
-    public void UnfollowPlaylist() {
-        Response response = given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .header("Authorization", token)
-                .when()
-                .delete("https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n/followers");
+                .delete("https://api.spotify.com/v1/me/albums?ids=382ObEPsp2rxGrnsizN5TX");
         response.prettyPrint();
         response.then().assertThat().statusCode(200);
 
